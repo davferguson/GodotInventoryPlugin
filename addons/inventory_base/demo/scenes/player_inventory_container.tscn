@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c24wye4rwbew4"]
+[gd_scene load_steps=3 format=3 uid="uid://c24wye4rwbew4"]
 
 [ext_resource type="Script" path="res://addons/inventory_base/scripts/inventory_container.gd" id="1_lpy6h"]
-[ext_resource type="Resource" uid="uid://b236h8mmkyu8w" path="res://addons/inventory_base/demo/data/inventories/player_inventory.tres" id="2_h45dj"]
 [ext_resource type="PackedScene" uid="uid://5ldybaeu0rrf" path="res://addons/inventory_base/demo/scenes/inventory_slot_template.tscn" id="3_yrko7"]
 
 [node name="PlayerInventoryContainer" type="Control" node_paths=PackedStringArray("grid_container")]
@@ -12,7 +11,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lpy6h")
-inventory = ExtResource("2_h45dj")
 grid_container = NodePath("GridContainer")
 slot_scene = ExtResource("3_yrko7")
 

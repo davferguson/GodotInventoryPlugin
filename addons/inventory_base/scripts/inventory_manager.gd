@@ -7,6 +7,8 @@ extends Control
 @export_group("PackedScenes")
 @export var player_inventory_scene: PackedScene
 @export var hand_slot_scene: PackedScene
+@export_group("Resources")
+@export var player_inventory_resource: Inventory
 
 var accessed_inventory: InventoryContainer
 var hand_slot: HandSlot
@@ -22,6 +24,7 @@ func _ready():
 	hand_slot.data = InventoryAutoload.hand_slot
 	add_child(hand_slot)
 	player_inventory = player_inventory_scene.instantiate()
+	player_inventory.inventory = player_inventory_resource
 	InventoryAutoload.player_inventory = player_inventory
 	player_inventory_slot.add_child(player_inventory)
 	
