@@ -4,11 +4,14 @@ extends Control
 @export_group("Inventory Positioning")
 @export var player_inventory_slot: Control
 @export var accessed_inventory_slot: Control
+@export var hotbar_slot: Control
 @export_group("PackedScenes")
 @export var player_inventory_scene: PackedScene
 @export var hand_slot_scene: PackedScene
+@export var hotbar_scene: PackedScene
 @export_group("Resources")
 @export var player_inventory_resource: Inventory
+@export var hotbar_inventory_resource: Inventory
 @export_group("Key Binds")
 @export var inventory_key_bind: InputEventKey
 
@@ -23,13 +26,9 @@ func _init():
 
 func _ready():
 	set_key_binds()
-	hand_slot = hand_slot_scene.instantiate()
-	hand_slot.data = InventoryAutoload.hand_slot
-	add_child(hand_slot)
-	player_inventory = player_inventory_scene.instantiate()
-	player_inventory.inventory = player_inventory_resource
+	initialize_children()
+	
 	InventoryAutoload.player_inventory = player_inventory
-	player_inventory_slot.add_child(player_inventory)
 	
 	connect_signals()
 
@@ -65,6 +64,19 @@ func set_key_binds():
 	else:
 		InputMap.add_action("inventory")
 	InputMap.action_add_event("inventory", inventory_key_bind)
+
+func initialize_children():
+	hand_slot = hand_slot_scene.instantiate()
+	hand_slot.data = InventoryAutoload.hand_slot
+	add_child(hand_slot)
+	
+	player_inventory = player_inventory_scene.instantiate()
+	player_inventory.inventory = player_inventory_resource
+	player_inventory_slot.add_child(player_inventory)
+	
+	var hotbar: Hotbar = hotbar_scene.instantiate()
+	hotbar.inventory = hotbar_inventory_resource
+	hotbar_slot.add_child(hotbar)
 
 func _on_hand_slot_changed(data: InventorySlotData):
 	hand_slot.data = data
