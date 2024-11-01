@@ -1,7 +1,11 @@
 #@tool
 class_name Inventory
 extends Resource
+## A [Resource] to store an [Array] of [InventorySlotData].
+##
+## [b]Inventory[/b] is intended to store and manipulate an [Array] of [InventorySlotData] with each element representing a seperate slot.
 
+## [Array] of [InventorySlotData], each element representing a seperate slot. An empty slot is represented as a [code]null[/code].
 @export var items: Array[InventorySlotData] = []:
 	set(value):
 		#print("inventory: set_inventory")
@@ -12,6 +16,10 @@ extends Resource
 					#item.changed.connect(emit_changed)
 		#changed.emit()
 
+## Adds [param slot_data] to [member items]. First attempts to add [param slot_data] to [member items] elements that hold the same [InventoryItem] as itself
+## without exceeding that elements [member InventoryItem.max_stack]. If [param slot_data] is not fully consumed by this process [param slot_data]
+## is added to the first empty element until [param slot_data] is fully consumed or the last element of [member items] is reached. Returns the remaining [InventoryItem]
+## and amount represented as a [InventorySlotData] or [code]null[/code] if [param slot_data] was completely added.
 func add_item(slot_data: InventorySlotData) -> InventorySlotData:
 	for index in items.size():
 		if slot_data == null:
@@ -41,14 +49,16 @@ func add_item(slot_data: InventorySlotData) -> InventorySlotData:
 		empty_index = find_first_empty_slot()
 	return slot_data
 
+## Returns the index of the first empty slot in [member items] or [code]-1[/code] if all slots are full.
 func find_first_empty_slot() -> int:
 	for index in items.size():
 		if items[index] == null:
 			return index
 	return -1
 
+## Combines all elements of [member items] matching the one found at [member items][[param index]] until the end of items
+## is reached or max stack is exceeded. These combined elements are then stored at [member items][[param index]].
 func combine_slot(index: int):
-	#print("double clisk: ", items[index])
 	if items[index] == null:
 		return
 	else:
