@@ -31,6 +31,16 @@ func create_inventory() -> InventoryContainer:
 	temp_inv.inventory = inventory
 	return temp_inv
 
+func change_inventory(new_inv: Inventory):
+	if InventoryAutoload.accessed_inventory == null:
+		inventory = new_inv
+		return
+	if InventoryAutoload.accessed_inventory.inventory == inventory:
+		inventory = new_inv
+		InventoryAutoload.accessed_inventory = create_inventory()
+	else:
+		inventory = new_inv
+
 func _on_inventory_input_event(viewport: Node, event: InputEvent, shape_idx: int):
 	if event is InputEventMouseButton:
 			if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
